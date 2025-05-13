@@ -1,19 +1,19 @@
 const mongoose = require("mongoose");
-const validator = require("validator")
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
       required: true,
-      minLength: 50,
-      maxLength: 4,
+      minLength: 4,
+      maxLength: 50,
     },
 
     lastName: {
       type: String,
-      minLength: 50,
-      maxLength: 4,
+      // minLength: 4,
+      // maxLength: 4,
     },
     age: {
       type: Number,
@@ -33,11 +33,11 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       unique: true,
       trim: true,
-      validate(value){
-       if(!validator.isEmail(value)){
-        throw new Error("invalid Email adress")
-       }
-      }
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("invalid Email adress");
+        }
+      },
     },
     password: {
       type: String,
@@ -46,11 +46,11 @@ const userSchema = new mongoose.Schema(
     photoUrl: {
       type: String,
       default: "https://cdn-icons-png.flaticon.com/256/149/149071.png",
-        validate(value){
-       if(!validator.isURL(value)){
-        throw new Error("invalid Email adress")
-       }
-      }
+      validate(value) {
+        if (!validator.isURL(value)) {
+          throw new Error("invalid Email adress");
+        }
+      },
     },
     about: {
       type: String,
