@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const connectDB = require("./config/database");
 const { validateSignupData } = require("./utils/validation");
+const { uerAuth } = require("./middleware/auth");
 const User = require("./models/user");
 
 const app = express();
@@ -54,20 +55,21 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/getUser", async (req, res) => {
+app.get("/getUser", uerAuth, async (req, res) => {
   try {
-    const { token } = req.cookies;
-    if (!token) {
-      throw new Error("Invalid token");
-    }
+    // console.log(req.user,"user>>")
+    // const { token } = req.cookies;
+    // if (!token) {
+    //   throw new Error("Invalid token");
+    // }
 
-    const decodeData = await jwt.verify(token, "DEV@TINDER");
-    const { _id } = decodeData;
-    const user = await User.findById(_id);
-    if (!user) {
+    // const decodeData = await jwt.verify(token, "DEV@TINDER");
+    // const { _id } = decodeData;
+    // const user = await User.findById(_id);
+    if (!req.user) {
       throw new Error("user doesnot exist");
     }
-    res.status(201).send({ message: user });
+    res.status(201).send({ message: req.user });
   } catch (error) {
     res.status(400).send(`Error: ${error}`);
   }
