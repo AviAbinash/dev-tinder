@@ -41,11 +41,11 @@ app.post("/login", async (req, res) => {
     if (!isUser) {
       throw new Error("Invalid credentials");
     }
-    const isPasswordMatch = await bycrypt.compare(password, isUser.password);
+    const isPasswordMatch = await isUser.validatePassword(password);
     if (!isPasswordMatch) {
       throw new Error("Invalid credentials");
     }
-    const token = jwt.sign({ _id: isUser?._id }, "DEV@TINDER");
+    const token = await isUser.getToken();
     res
       .cookie("token", token)
       .status(201)
