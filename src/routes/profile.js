@@ -1,4 +1,6 @@
 const express = require("express");
+const validator = require("validator");
+const bycrypt = require("bcrypt");
 const { userAuth } = require("../middleware/auth");
 const { validateUserEdit } = require("../utils/validation");
 const User = require("../models/user");
@@ -19,7 +21,7 @@ profileRouter.get("/getUser/view", userAuth, async (req, res) => {
     if (!req.user) {
       throw new Error("user doesnot exist");
     }
-    res.status(201).send({ message: req.user });
+    res.status(201).json({ message: req.user });
   } catch (error) {
     res.status(400).send(`Error: ${error}`);
   }
@@ -40,9 +42,33 @@ profileRouter.patch("/getUser/update", userAuth, async (req, res) => {
       loggedInUser?._id,
       loggedInUser
     );
-    res.status(200).send({ message: "profile data updated successfully" });
+
+    res.status(200).json({
+      message: "profile data updated successfully",
+      data: isUpdate,
+    });
   } catch (error) {
     res.status(404).send(`Error: ${error}`);
+  }
+});
+
+profileRouter.patch("/getUser/forgotPassword", userAuth, async (req, res) => {
+  try {
+    const { newPassword } = req.body;
+    if (!newPassword) {
+      res.status(400).json({ message: "invalid new password" });
+    }
+    const isStrong = validator.isStrongPassword(newPassword);
+    if (isStrong) {
+      const hashedPassword = await bycrypt.hash(newPassword, 10);
+      const isPasswordUpdate = await User.findByIdAndUpdate(req.user._id, {
+        password: hashedPassword,
+      });
+
+      res.status(200).json({ message: "password changed successfully" });
+    }
+  } catch (error) {
+    res.status(400).send(`Error: ${error}`);
   }
 });
 
