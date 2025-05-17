@@ -11,9 +11,27 @@ const validateSignupData = (req) => {
   if (!emailId || !validator.isEmail(emailId)) {
     throw new Error("email is not valid");
   }
-//   if (password || !validator.isStrongPassword(password)) {
-//     throw new Error("password is not valid");
-//   }
+  //   if (password || !validator.isStrongPassword(password)) {
+  //     throw new Error("password is not valid");
+  //   }
 };
 
-module.exports = { validateSignupData };
+const validateUserEdit = (req) => {
+  const allowedFields = [
+    "firstName",
+    "lastName",
+    "age",
+    "gender",
+    "skills",
+    "about",
+    "photoUrl",
+  ];
+
+  const isAllowed = Object.keys(req.body).every((field) =>
+    allowedFields.includes(field)
+  );
+  console.log(isAllowed)
+  return isAllowed
+};
+
+module.exports = { validateSignupData,validateUserEdit };
