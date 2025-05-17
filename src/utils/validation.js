@@ -30,8 +30,8 @@ const validateUserEdit = (req) => {
   const isAllowed = Object.keys(req.body).every((field) =>
     allowedFields.includes(field)
   );
-  console.log(isAllowed)
-  return isAllowed
+
+  return isAllowed;
 };
 
-module.exports = { validateSignupData,validateUserEdit };
+module.exports = { validateSignupData, validateUserEdit };
