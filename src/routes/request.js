@@ -48,9 +48,11 @@ connectionRequestRouter.post(
         status,
       });
       const data = await connectionrequest.save();
-      res
-        .status(201)
-        .json({ message: "connection request sent", isConnectionPresent });
+      if (status == "intrested") {
+        res.status(201).json({ message: "connection request sent", data });
+      } else {
+        res.status(201).json({ message: "connection request ignored", data });
+      }
     } catch (error) {
       res.status(400).json(`error - ${error}`);
     }
