@@ -39,10 +39,16 @@ authRouter.post("/login", async (req, res) => {
       throw new Error("Invalid credentials");
     }
     const token = await isUser.getToken();
+    const userdata = {
+      firstName:isUser?.firstName,
+      lastName:isUser?.lastName,
+      email:isUser?.emailId,
+
+    }
     res
       .cookie("token", token, { expires: new Date(Date.now() + 8 * 3600000) }) //expires in 8hours
       .status(201)
-      .send({ message: "log in  successfully " });
+      .send({ message: "log in  successfully ", user: userdata });
   } catch (error) {
     res.status(400).send(`Error: ${error}`);
   }
