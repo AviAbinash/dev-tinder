@@ -1,8 +1,9 @@
+import Card from '@/Components/Card'
 import React from 'react'
 
 const Login = () => {
   return (
-    <div>page</div>
+    <Card/>
   )
 }
 
