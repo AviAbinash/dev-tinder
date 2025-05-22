@@ -3,6 +3,7 @@
 import { getData } from "@/service/http";
 import { useEffect } from "react";
 import { useAppSelector } from "@/hooks/reduxHook";
+import Feed from "@/Components/Feed";
 
 // import Image from "next/image";
 
@@ -16,7 +17,7 @@ export default function Home() {
   }, [userdata]);
   return (
     <>
-      <h3>hello world</h3>
+      <Feed />
     </>
   );
 }

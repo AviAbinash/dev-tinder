@@ -9,6 +9,7 @@ import {
 } from "../redux/slices/authSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { useRouter } from "next/navigation";
+// import Toast from "./common/Toast";
 const Navbar = () => {
   const [token, setToken] = useState<string | null>(null);
   const userdata = useAppSelector((state) => state.auth.loginData);
@@ -34,6 +35,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
+        {/* <Toast /> */}
         <Link href="/" className="btn btn-ghost text-xl">
           Dev Tinder
         </Link>

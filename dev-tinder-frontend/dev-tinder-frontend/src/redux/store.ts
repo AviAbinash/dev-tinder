@@ -1,10 +1,12 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import authSlice from "./slices/authSlice";
+import feedSlice from "./slices/feedSlice";
 const store = configureStore({
   reducer: {
     auth: authSlice,
+    feed: feedSlice,
   },
-    middleware: (getDefaultMiddleware) =>
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
