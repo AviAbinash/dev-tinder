@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { userLogin } from "../redux/slices/authSlice";
+import { setIsLogIn, userLogin } from "../redux/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { Inputs } from "../types/authTypes";
@@ -14,11 +14,11 @@ const Card = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
-  console.log(isSubmitting, "isSubmitting");
+
   const onHandleSubmit = async (data: Inputs) => {
     try {
-      console.log(data, "data");
       await dispatch(userLogin(data));
+      dispatch(setIsLogIn(true));
       router.push("/");
       // console.log(res, "res");
     } catch (error) {

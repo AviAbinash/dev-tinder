@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Inputs } from "../../types/authTypes";
 import { PostMethod } from "../../service/http";
+
 const initialState = {
   isLoggedIn: false,
   loginData: {},
@@ -12,8 +13,27 @@ export const userLogin = createAsyncThunk(
     try {
       const res = await PostMethod("login", data);
       localStorage.setItem("token", res?.data?.token);
+      localStorage.setItem("userData", res?.data?.user);
       if (res && res.data) {
-        dispatch(setLoginData(res.data));
+        dispatch(setLoginData(res.data.user));
+      }
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const userLogout = createAsyncThunk(
+  "user/logout",
+  async (url: string) => {
+    try {
+      const res = await PostMethod(url);
+      console.log(res);
+
+      if (res && res.data.message) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userData");
       }
       return res;
     } catch (error) {
@@ -27,13 +47,14 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setLoginData: (state, action) => {
-      state.loginData = action.payload;
-
-      state.isLoggedIn = true;
+      state.loginData = action?.payload;
+    },
+    setIsLogIn: (state, action) => {
+      state.isLoggedIn = action?.payload;
     },
   },
 });
 
-const { setLoginData } = authSlice.actions;
+export const { setLoginData ,setIsLogIn} = authSlice.actions;
 
 export default authSlice.reducer;
