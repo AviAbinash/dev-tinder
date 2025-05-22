@@ -1,15 +1,14 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { PostMethod } from "../service/http";
+import{userLogin} from "../redux/slices/authSlice"
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "../hooks/reduxHook";
+import {Inputs} from "../types/authTypes"
 const Card = () => {
+  const dispatch = useAppDispatch()
   const router = useRouter();
-  type Inputs = {
-    emailId: string;
-    password: string;
-    // errors: string;
-  };
+
 
   const {
     register,
@@ -20,7 +19,7 @@ const Card = () => {
   const onHandleSubmit = async (data: Inputs) => {
     try {
       console.log(data, "data");
-      await PostMethod("login", data);
+      await dispatch(userLogin(data))
       router.push("/");
       // console.log(res, "res");
     } catch (error) {
