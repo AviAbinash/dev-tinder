@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {Inputs} from "../../types/authTypes"
 import {PostMethod} from "../../service/http"
 const initialState = {
+  isLoggedIn : false,
   loginData: {},
 };
 
@@ -26,6 +27,7 @@ const authSlice = createSlice({
   reducers: {
     setLoginData: (state, action) => {
       state.loginData = action.payload;
+      state.isLoggedIn = true
     },
   },
 });
