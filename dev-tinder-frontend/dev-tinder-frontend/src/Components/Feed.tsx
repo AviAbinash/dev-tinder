@@ -14,7 +14,7 @@ const Feed = () => {
     }
   }, []);
   return (
-    <div className="flex items-center justify-center h-[65vh]">
+    <div className="flex items-center justify-center h-[76vh]">
       {feedata && feedata?.length > 0 && <FeedCard />}
     </div>
   );

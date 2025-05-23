@@ -17,3 +17,12 @@ export const PostMethod = async (url, data) => {
     console.log(error);
   }
 };
+
+export const patchMethod = async (url, data) => {
+  try {
+    const response = await api.patch(url, data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};

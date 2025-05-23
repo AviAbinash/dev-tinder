@@ -13,12 +13,12 @@ import { useRouter } from "next/navigation";
 const Navbar = () => {
   const [token, setToken] = useState<string | null>(null);
   const userdata = useAppSelector((state) => state.auth.loginData);
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  // const { isLoggedIn } = useAppSelector((state) => state.auth);
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
   }, [userdata]);
-  console.log(token, "token");
+  // console.log(token, "token");
   const dispatch = useAppDispatch();
   const router = useRouter();
   const handleLogout = () => {
@@ -40,15 +40,15 @@ const Navbar = () => {
           Dev Tinder
         </Link>
       </div>
-      {isLoggedIn == true && (
+      { token && (
         <div className="flex gap-2">
           <div className="dropdown dropdown-end mx-5">
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-ghost btn-circle avatar"
+              className="avatar"
             >
-              <div className="w-10 rounded-full">
+              <div className="w-16 rounded-full">
                 <Image
                   alt="Tailwind CSS Navbar component"
                   src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
