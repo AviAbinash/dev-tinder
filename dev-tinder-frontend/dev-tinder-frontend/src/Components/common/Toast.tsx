@@ -1,16 +1,24 @@
-"use client"
+"use client";
 import React from "react";
+import { useAppSelector } from "@/hooks/reduxHook";
+type ToastProps = {
+  message: string;
+};
 
-const Toast = () => {
+const Toast = ({ message }: ToastProps) => {
+  const { showTaost } = useAppSelector((state) => state.utils);
   return (
-    <div className="toast toast-top">
-      <div className="alert alert-info">
-        <span>New mail arrived.</span>
-      </div>
-      <div className="alert alert-success">
-        <span>Message sent successfully.</span>
-      </div>
-    </div>
+    <>
+      {showTaost ? (
+        <div className="toast toast-top">
+          <div className="alert alert-success">
+            <span>{message}</span>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

@@ -4,7 +4,7 @@ export type User = {
   age: number;
   gender: string;
   about: string;
-  skills: string[];
+  skills: string | string[];
 };
 
 export type profile = {

@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { User } from "../../types/profile";
 import { updateProfile } from "@/redux/slices/feedSlice";
 import { useAppDispatch } from "@/hooks/reduxHook";
+import { getUserdata } from "@/redux/slices/profileSlice";
+import { setShowToast } from "@/redux/slices/utilSlice";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -32,30 +34,52 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, user, setUser }) => {
   console.log(user);
 
   const onHandleSubmit = async (data: User) => {
-    console.log(data, "data");
-    const cleanedSkills = (data.skills as string[])
-      .map((skill: string) => skill.trim())
-      .filter((skill: string) => skill !== "");
-    setUser((prev) => ({
-      ...prev,
-      firstName: data?.firstName,
-      lastName: data?.lastName,
-      age: data?.age,
-      gender: data?.gender,
-      about: data?.about,
-      skills: Array.from(new Set([...prev.skills, ...cleanedSkills])),
-    }));
-    const userdata = {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      age: data.age,
-      gender: data.gender,
-      about: data.about,
-      skills: cleanedSkills,
-    };
-    await dispatch(updateProfile({ url: "getUser/update", data: userdata }));
+    try {
+      let cleanedSkills: string[] = [];
+
+      if (typeof data.skills === "string") {
+        // Handle comma-separated string
+        cleanedSkills = data.skills
+          .split(",")
+          .map((skill: string) => skill.trim())
+          .filter((skill: string) => skill !== "");
+      } else if (Array.isArray(data.skills)) {
+        // Handle string array
+        cleanedSkills = data.skills
+          .map((skill: string) => skill.trim())
+          .filter((skill: string) => skill !== "");
+      }
+
+      setUser((prev) => ({
+        ...prev,
+        firstName: data?.firstName,
+        lastName: data?.lastName,
+        age: data?.age,
+        gender: data?.gender,
+        about: data?.about,
+        skills: Array.from(new Set([...prev.skills, ...cleanedSkills])),
+      }));
+      const userdata = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        age: data.age,
+        gender: data.gender,
+        about: data.about,
+        skills: cleanedSkills,
+      };
+      await dispatch(updateProfile({ url: "getUser/update", data: userdata }));
+      onClose();
+      dispatch(setShowToast(true))
+      dispatch(getUserdata("getUser/view"));
+      setTimeout(()=>{
+        dispatch(setShowToast(false))
+      },3000)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  console.log(user);
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-base-300 rounded-xl shadow-lg p-6 w-full max-w-md relative">

@@ -67,3 +67,6 @@
   --btn-p: 1rem;
   --btn-border: var(--btn-bg);
 }
+.toast{
+  left: 50%;
+}

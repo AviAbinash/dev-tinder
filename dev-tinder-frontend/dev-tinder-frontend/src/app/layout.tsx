@@ -6,6 +6,7 @@ import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
+import Toast from "@/Components/common/Toast";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
         <Provider store={store}>
           {" "}
           <Navbar />
+           <Toast message="updated"/>
           {children}
           <Footer />
         </Provider>

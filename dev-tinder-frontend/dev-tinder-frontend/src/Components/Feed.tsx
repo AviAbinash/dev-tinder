@@ -6,10 +6,10 @@ import FeedCard from "./common/FeedCard";
 
 const Feed = () => {
   const { feedata } = useAppSelector((state) => state.feed);
-  console.log(feedata);
+  console.log(feedata?.length, "feedata?.length <= 0");
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (feedata?.length <= 0) {
+    if (feedata?.length <= 0 || feedata?.length == undefined) {
       dispatch(getFeedData("user/feed"));
     }
   }, []);

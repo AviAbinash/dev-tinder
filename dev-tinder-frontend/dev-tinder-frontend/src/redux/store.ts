@@ -2,11 +2,13 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import authSlice from "./slices/authSlice";
 import feedSlice from "./slices/feedSlice";
 import profileSlice from "../redux/slices/profileSlice";
+import utilSlice from "../redux/slices/utilSlice"
 const store = configureStore({
   reducer: {
     auth: authSlice,
     feed: feedSlice,
     profile: profileSlice,
+    utils:utilSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
