@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         hostname: 'img.daisyui.com',
         pathname: '/**',
       },
+         {
+        protocol: 'https',
+        hostname: 't4.ftcdn.net',
+        pathname: '/**',
+      },
     ],
   },
 };

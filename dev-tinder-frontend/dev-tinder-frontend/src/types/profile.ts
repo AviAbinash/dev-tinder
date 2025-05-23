@@ -22,3 +22,14 @@ export type profile = {
   updatedAt: string;
   __v: number;
 };
+
+export type connections = {
+  _id: string
+  firstName: string
+  lastName:string;
+  photoUrl:string;
+  about:string;
+  skills: string[];
+  age: number;
+  gender: string
+};

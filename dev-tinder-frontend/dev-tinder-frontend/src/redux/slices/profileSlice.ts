@@ -1,12 +1,14 @@
 import { getData } from "@/service/http";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { profile } from "../../types/profile";
+import { profile,connections } from "../../types/profile";
 interface State {
   userdata: profile | null;
+  connectionData:connections[];
 }
 
 const initialState: State = {
   userdata: null,
+  connectionData: [],
 };
 
 export const getUserdata = createAsyncThunk(
@@ -24,6 +26,19 @@ export const getUserdata = createAsyncThunk(
   }
 );
 
+export const getUserConnections = createAsyncThunk(
+  "profile/getConnections",
+  async (url: string, { dispatch }) => {
+    try {
+      const res = await getData(url);
+      console.log(res, "res");
+      dispatch(setConnectiondata(res?.data?.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const profileSlice = createSlice({
   name: "profileSlice",
   initialState,
@@ -31,9 +46,12 @@ const profileSlice = createSlice({
     setUserData: (state, action) => {
       state.userdata = action.payload;
     },
+    setConnectiondata: (state, action) => {
+      state.connectionData = action.payload;
+    },
   },
 });
 
-export const { setUserData } = profileSlice.actions;
+export const { setUserData, setConnectiondata } = profileSlice.actions;
 
 export default profileSlice.reducer;

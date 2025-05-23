@@ -33,21 +33,17 @@ const Navbar = () => {
     }
   };
   return (
-    <div className="navbar bg-base-300 shadow-sm fixed top-0">
+    <div className="navbar bg-base-300 shadow-sm fixed top-0 z-50">
       <div className="flex-1">
         {/* <Toast /> */}
         <Link href="/" className="btn btn-ghost text-xl">
           Dev Tinder
         </Link>
       </div>
-      { token && (
+      {token && (
         <div className="flex gap-2">
           <div className="dropdown dropdown-end mx-5">
-            <div
-              tabIndex={0}
-              role="button"
-              className="avatar"
-            >
+            <div tabIndex={0} role="button" className="avatar">
               <div className="w-16 rounded-full">
                 <Image
                   alt="Tailwind CSS Navbar component"
@@ -68,7 +64,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <a>Settings</a>
+                <Link href={"/connections"}>Connections</Link>
               </li>
               <li>
                 <div onClick={handleLogout}>Logout</div>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 // import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -35,9 +35,16 @@ export default function RootLayout({
       >
         <Provider store={store}>
           {" "}
-          <Navbar />
-           <Toast message="updated"/>
-          {children}
+          <div className="navbar fixed top-0 left-0 right-0 bg-base-300 shadow-md z-50">
+            {" "}
+            <Navbar />
+          </div>
+          <Toast message="updated" />
+          <main className="pt-20">
+            {" "}
+            {/* Adjust pt-* to match navbar height */}
+            {children}
+          </main>
           <Footer />
         </Provider>
       </body>
