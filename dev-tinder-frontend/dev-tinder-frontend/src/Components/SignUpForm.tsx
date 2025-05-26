@@ -1,25 +1,22 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { setIsLogIn, userLogin } from "../redux/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "../hooks/reduxHook";
-import { Inputs } from "../types/authTypes";
-import Link from "next/link";
-const LoginForm = () => {
+import { signupForm } from "@/types/authTypes";
+import { userSignUp } from "@/redux/slices/authSlice";
+const SignUpForm = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<Inputs>();
-
-  const onHandleSubmit = async (data: Inputs) => {
+  } = useForm<signupForm>();
+  const onHandleSubmit = async (data:signupForm) => {
     try {
-      await dispatch(userLogin(data));
-      dispatch(setIsLogIn(true));
+      await dispatch(userSignUp(data));
+      // dispatch(setIsLogIn(true));
       router.push("/");
       // console.log(res, "res");
     } catch (error) {
@@ -33,6 +30,33 @@ const LoginForm = () => {
           <form onSubmit={handleSubmit(onHandleSubmit)}>
             <div className="card-body items-center text-center">
               <h2 className="card-title">Login </h2>
+              <input
+                type="text"
+                {...register("firstName", {
+                  required: "First Name is required",
+                  minLength: {
+                    value: 4,
+                    message: "First Name must be at least 4 characters",
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: "First Name must be at most 50 characters",
+                  },
+                })}
+                placeholder="First Name"
+                className="input"
+              />
+              {errors.firstName && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.firstName.message}
+                </p>
+              )}
+              <input
+                type="text"
+                {...register("lastName")}
+                placeholder="Last Name"
+                className="input"
+              />
               <label className="input validator input-border">
                 <svg
                   className="h-[1em] opacity-50"
@@ -118,11 +142,9 @@ const LoginForm = () => {
                   type="submit"
                   disabled={isSubmitting}
                 >
-                  Login
+                  Accept
                 </button>
               </div>
-              <span>Donot have an account </span>
-              <Link href={"/auth/signup"}>Click Here</Link>
             </div>
           </form>
         </div>
@@ -131,4 +153,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

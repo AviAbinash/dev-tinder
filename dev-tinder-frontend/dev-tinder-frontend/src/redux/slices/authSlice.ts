@@ -7,6 +7,17 @@ const initialState = {
   loginData: {},
 };
 
+export const userSignUp = createAsyncThunk(
+  "user/signup",
+  async (data: Inputs) => {
+    try {
+      const res = await PostMethod("register", data);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 export const userLogin = createAsyncThunk(
   "user/login",
   async (data: Inputs, { dispatch }) => {
@@ -34,7 +45,6 @@ export const userLogout = createAsyncThunk(
       if (res && res.data.message) {
         localStorage.removeItem("token");
         localStorage.removeItem("userData");
-        
       }
       return res;
     } catch (error) {
@@ -56,6 +66,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setLoginData ,setIsLogIn} = authSlice.actions;
+export const { setLoginData, setIsLogIn } = authSlice.actions;
 
 export default authSlice.reducer;

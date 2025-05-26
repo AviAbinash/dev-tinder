@@ -12,3 +12,10 @@ export interface logindata {
     email: string;
   };
 }
+
+export type signupForm = {
+  firstName: string;
+  lastName: string;
+  emailId: string;
+  password: string;
+};

@@ -172,7 +172,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, user, setUser }) => {
             </fieldset>
             <div className="flex flex-row justify-center items-center mt-3">
               <button className="btn btn-secondary" disabled={isSubmitting}>
-                Secondary
+                Submit
               </button>
             </div>
           </form>
