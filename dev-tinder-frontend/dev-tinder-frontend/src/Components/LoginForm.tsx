@@ -5,7 +5,7 @@ import { setIsLogIn, userLogin } from "../redux/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { Inputs } from "../types/authTypes";
-const Card = () => {
+const LoginForm = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -128,4 +128,4 @@ const Card = () => {
   );
 };
 
-export default Card;
+export default LoginForm;

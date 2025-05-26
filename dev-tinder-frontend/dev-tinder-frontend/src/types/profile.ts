@@ -52,3 +52,12 @@ export type requests = {
   updatedAt: string;
   __v: 0;
 };
+
+export type feedData = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  photoUrl: string;
+  about: string;
+  skills: string[];
+};

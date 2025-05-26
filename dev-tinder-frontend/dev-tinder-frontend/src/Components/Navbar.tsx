@@ -9,27 +9,27 @@ import {
 } from "../redux/slices/authSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { useRouter } from "next/navigation";
+import { setUserData } from "@/redux/slices/profileSlice";
 // import Toast from "./common/Toast";
 const Navbar = () => {
   const [token, setToken] = useState<string | null>(null);
   const userdata = useAppSelector((state) => state.auth.loginData);
-  console.log(userdata);
-  console.log(token);
 
   // const { isLoggedIn } = useAppSelector((state) => state.auth);
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
-  }, [userdata, token]);
-  // console.log(token, "token");
+  }, [userdata]);
+ 
   const dispatch = useAppDispatch();
   const router = useRouter();
   const handleLogout = () => {
     try {
-      console.log("log");
+      localStorage.removeItem("token");
       dispatch(userLogout("logout"));
       setToken(null);
       dispatch(setLoginData({}));
+      dispatch(setUserData(null));
       dispatch(setIsLogIn(false));
       router.push("/auth/login/");
     } catch (error) {
@@ -71,7 +71,7 @@ const Navbar = () => {
               <li>
                 <Link href={"/connections"}>Connections</Link>
               </li>
-               <li>
+              <li>
                 <Link href={"/requests"}>Requests</Link>
               </li>
               <li>

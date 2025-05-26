@@ -1,25 +1,79 @@
-"use client"
-import React from 'react'
-import Image from 'next/image'
+"use client";
+import React, { useEffect } from "react";
+import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
+import {
+  getUserFeed,
+  postSendConnections,
+  setRemovefeedById,
+} from "@/redux/slices/profileSlice";
+import { feedData } from "@/types/profile";
 
 const FeedCard = () => {
-  return (
-   <div className="card bg-base-300 w-96 shadow-sm">
-  <figure className='profile-image'>
-    <Image
-      src="https://cdn-icons-png.flaticon.com/256/149/149071.png"
-      alt="Shoes" width={350} height={350} />
-  </figure>
-  <div className="card-body">
-    <h2 className="card-title">Card Title</h2>
-    <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-    <div className="card-actions justify-center">
-      <button className="btn btn-primary">Ignore</button>
-       <button className="btn btn-secondary">Intrested</button>
-    </div>
-  </div>
-</div>
-  )
-}
+  const dispatch = useAppDispatch();
+  const { userFeedData } = useAppSelector((state) => state.profile);
 
-export default FeedCard
+  useEffect(() => {
+    dispatch(getUserFeed("user/feed"));
+  }, [dispatch]);
+
+  const handleSendConnection = (id: string, status: string) => {
+    dispatch(postSendConnections({ requestId: id, status }));
+    dispatch(setRemovefeedById(id));
+  };
+
+  return (
+    <div className="relative w-[400px] h-[500px] mx-auto overflow-hidden">
+      {userFeedData && userFeedData.length > 0 ? (
+        userFeedData.map((ele: feedData, index: number) => {
+          return (
+            <div
+              key={ele._id}
+              className="absolute w-full h-full transition-all duration-300 rounded-xl shadow-lg card bg-base-300"
+              style={{
+                zIndex: userFeedData.length - index,
+                display: index === 0 ? "block" : "none", // hide all except first
+              }}
+            >
+              {ele?.photoUrl && (
+                <figure className="w-full h-72 overflow-hidden rounded-t-xl">
+                  <Image
+                    src={ele.photoUrl}
+                    alt="User Photo"
+                    width={400}
+                    height={300}
+                    className="object-cover w-full h-full"
+                  />
+                </figure>
+              )}
+              <div className="card-body p-4 text-center">
+                <h2 className="card-title justify-center">
+                  {ele.firstName} {ele.lastName}
+                </h2>
+                <p>{ele.about}</p>
+                <div className="card-actions justify-center mt-6">
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => handleSendConnection(ele._id, "ignored")}
+                  >
+                    Ignore
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => handleSendConnection(ele._id, "intrested")}
+                  >
+                    Interested
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })
+      ) : (
+        <div className="text-center mt-8">No feed data found. Try again later.</div>
+      )}
+    </div>
+  );
+};
+
+export default FeedCard;

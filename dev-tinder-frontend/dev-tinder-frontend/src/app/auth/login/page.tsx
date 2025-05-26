@@ -1,9 +1,9 @@
-import Card from '@/Components/Card'
+import LoginForm from '../../../Components/LoginForm'
 import React from 'react'
 
 const Login = () => {
   return (
-    <Card/>
+    <LoginForm/>
   )
 }
 
