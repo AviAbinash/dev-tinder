@@ -34,6 +34,7 @@ export const userLogout = createAsyncThunk(
       if (res && res.data.message) {
         localStorage.removeItem("token");
         localStorage.removeItem("userData");
+        
       }
       return res;
     } catch (error) {

@@ -13,11 +13,14 @@ import { useRouter } from "next/navigation";
 const Navbar = () => {
   const [token, setToken] = useState<string | null>(null);
   const userdata = useAppSelector((state) => state.auth.loginData);
+  console.log(userdata);
+  console.log(token);
+
   // const { isLoggedIn } = useAppSelector((state) => state.auth);
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
-  }, [userdata]);
+  }, [userdata, token]);
   // console.log(token, "token");
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -25,11 +28,13 @@ const Navbar = () => {
     try {
       console.log("log");
       dispatch(userLogout("logout"));
+      setToken(null);
       dispatch(setLoginData({}));
       dispatch(setIsLogIn(false));
       router.push("/auth/login/");
     } catch (error) {
       console.log(error);
+      setToken(null);
     }
   };
   return (
@@ -65,6 +70,9 @@ const Navbar = () => {
               </li>
               <li>
                 <Link href={"/connections"}>Connections</Link>
+              </li>
+               <li>
+                <Link href={"/requests"}>Requests</Link>
               </li>
               <li>
                 <div onClick={handleLogout}>Logout</div>
