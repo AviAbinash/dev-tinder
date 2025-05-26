@@ -18,6 +18,15 @@ export const PostMethod = async (url, data) => {
   }
 };
 
+export const postMethodUrl = async (url) => {
+  try {
+    const response = await api.post(url);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const patchMethod = async (url, data) => {
   try {
     const response = await api.patch(url, data);

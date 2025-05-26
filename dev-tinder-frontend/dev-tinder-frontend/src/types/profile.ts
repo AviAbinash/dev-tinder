@@ -24,12 +24,31 @@ export type profile = {
 };
 
 export type connections = {
-  _id: string
-  firstName: string
-  lastName:string;
-  photoUrl:string;
-  about:string;
+  _id: string;
+  firstName: string;
+  lastName: string;
+  photoUrl: string;
+  about: string;
   skills: string[];
   age: number;
-  gender: string
+  gender: string;
+};
+
+export type requests = {
+  _id: string;
+  fromUserId: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    photoUrl: string;
+    about: string;
+    skills: string[];
+    age: number;
+    gender: string;
+  };
+  toUserId: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: 0;
 };
