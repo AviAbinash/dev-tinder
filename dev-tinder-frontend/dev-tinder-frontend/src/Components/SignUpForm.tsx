@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { signupForm } from "@/types/authTypes";
 import { userSignUp } from "@/redux/slices/authSlice";
+import Link from "next/link";
 const SignUpForm = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -13,7 +14,7 @@ const SignUpForm = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<signupForm>();
-  const onHandleSubmit = async (data:signupForm) => {
+  const onHandleSubmit = async (data: signupForm) => {
     try {
       await dispatch(userSignUp(data));
       // dispatch(setIsLogIn(true));
@@ -29,7 +30,7 @@ const SignUpForm = () => {
         <div className="card bg-neutral text-neutral-content w-96">
           <form onSubmit={handleSubmit(onHandleSubmit)}>
             <div className="card-body items-center text-center">
-              <h2 className="card-title">Login </h2>
+              <h2 className="card-title">Sign up </h2>
               <input
                 type="text"
                 {...register("firstName", {
@@ -145,8 +146,13 @@ const SignUpForm = () => {
                   Accept
                 </button>
               </div>
+              <span>Have an Account </span>
+
+              <span>
+                <Link href={"/auth/login"}>Click Here</Link>
+              </span>
             </div>
-          </form>
+          </form>  
         </div>
       </div>
     </>

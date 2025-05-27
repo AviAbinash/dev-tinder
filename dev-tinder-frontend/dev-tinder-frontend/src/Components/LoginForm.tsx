@@ -122,7 +122,8 @@ const LoginForm = () => {
                 </button>
               </div>
               <span>Donot have an account </span>
-              <Link href={"/auth/signup"}>Click Here</Link>
+              
+              <span><Link href={"/auth/signup"}>Click Here</Link></span>
             </div>
           </form>
         </div>
