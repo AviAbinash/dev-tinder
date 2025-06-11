@@ -12,6 +12,8 @@ const profileRouter = require("./routes/profile");
 const connectionRequestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 
+require('dotenv').config()
+
 const app = express();
 app.use(cors({
   origin: 'http://localhost:3000',
@@ -29,7 +31,7 @@ app.use("/", userRouter);
 connectDB()
   .then((res) => {
     console.log("database connected sucessfully");
-    app.listen(8000, () => {
+    app.listen(process.env.PORT, () => {
       console.log(`server started at 8000`);
     });
   })
