@@ -10,29 +10,38 @@ const ChatPage = () => {
   const params = useParams();
   const targetId = params.id;
   const [messages, setMessages] = useState([
-    { sender: "John", text: "Hello!" },
-    { sender: "Me", text: "Hi John!" },
   ]);
 
+  const [inputvalue, setInputValue] = useState("");
+
   const { loginData } = useAppSelector((state) => state.auth);
-  console.log(loginData)
-  const userId = loginData?.id
-  const [input, setInput] = useState("");
+  const userId = loginData?.id;
 
   useEffect(() => {
     const socket = createSocketConnection();
-     socket.emit("joinchat",{userId,targetId})
+    if (userId && targetId) {
+      socket.emit("joinchat", { userId, targetId });
+    }
 
-     return ()=>{
-      socket.disconnect()
-     }
-  }, []);
+    socket.on("newMessage", ({text}) => {
+      console.log("text", text);
+      setMessages((prev)=>[...prev,{name:"Abinash",text}])
+    });
 
-  // const sendMessage = () => {
-  //   if (!input.trim()) return;
-  //   setMessages([...messages, { sender: "Me", text: input }]);
-  //   setInput("");
-  // };
+    return () => {
+      socket.disconnect();
+    };
+  }, [userId, targetId]);
+
+  const sendMessage = () => {
+    if (!userId && !targetId) {
+      return;
+    }
+    const socket = createSocketConnection();
+
+    socket.emit("sendMessage", { userId, targetId, text: inputvalue });
+    setInputValue("")
+  };
 
   return (
     <div className="h-100 flex bg-gray-700">
@@ -80,13 +89,13 @@ const ChatPage = () => {
             className="flex-1 border p-2 rounded"
             type="text"
             placeholder="Type your message..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            value={inputvalue}
+            onChange={(e) => setInputValue(e.target.value)}
             // onKeyDown={(e) => e.key === "Enter"
             //    && sendMessage()}
           />
           <button
-            // onClick={sendMessage}
+            onClick={sendMessage}
             className="bg-blue-500 text-black px-4 py-2 rounded"
           >
             Send
