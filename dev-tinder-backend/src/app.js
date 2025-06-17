@@ -1,3 +1,5 @@
+const http = require("http");
+const socket = require("socket.io")
 const express = require("express");
 const bycrypt = require("bcrypt");
 const cors = require("cors");
@@ -11,15 +13,22 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const connectionRequestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
+const initializeSocket = require("./utils/socket")
 
-require('dotenv').config()
+require("dotenv").config();
 
 const app = express();
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-  optionsSuccessStatus: 200 
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
+
+const server = http.createServer(app);
+initializeSocket(server)
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -31,7 +40,7 @@ app.use("/", userRouter);
 connectDB()
   .then((res) => {
     console.log("database connected sucessfully");
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
       console.log(`server started at 8000`);
     });
   })

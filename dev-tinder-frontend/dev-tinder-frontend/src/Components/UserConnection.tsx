@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { getUserConnections } from "@/redux/slices/profileSlice";
 import { connections } from "@/types/profile";
+import  Link  from "next/link";
 
 const UserConnection = () => {
   const dispatch = useAppDispatch();
@@ -71,6 +72,7 @@ const UserConnection = () => {
                     <li className="text-white-800">No skills listed</li>
                   )}
                 </ul>
+                 <Link href={`/chatpage/${connection?._id}`}>Message</Link>
               </div>
             </div>
           </div>

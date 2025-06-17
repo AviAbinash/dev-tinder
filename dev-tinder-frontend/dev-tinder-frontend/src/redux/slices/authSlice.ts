@@ -2,9 +2,23 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Inputs } from "../../types/authTypes";
 import { PostMethod } from "../../service/http";
 
-const initialState = {
+export interface LoginData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  id: string;
+}
+
+
+interface AuthState {
+  isLoggedIn: boolean;
+  loginData: LoginData | null;
+}
+
+
+const initialState: AuthState = {
   isLoggedIn: false,
-  loginData: {},
+  loginData: null, 
 };
 
 export const userSignUp = createAsyncThunk(
